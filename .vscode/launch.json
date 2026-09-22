@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Déboguer Test (TicTacToe)",
+            "request": "launch",
+            "mainClass": "Test",
+            "sourcePaths": ["${workspaceFolder}/src"]
+        },
+        {
+            "type": "java",
+            "name": "Déboguer le fichier courant",
+            "request": "launch",
+            "mainClass": "${file}"
+        }
+    ]
+}

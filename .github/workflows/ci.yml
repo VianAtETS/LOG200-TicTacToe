@@ -1,0 +1,74 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_call:
+
+env:
+  JUNIT_VERSION: 6.1.3
+  TYPST_VERSION: 0.15.1
+
+jobs:
+  java:
+    name: Java (compilation et tests)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Compile sources
+        run: javac -d bin src/*.java
+
+      - name: Run unit tests
+        shell: bash
+        run: |
+          shopt -s nullglob
+          tests=(test/*.java)
+          if (( ${#tests[@]} == 0 )); then
+            echo "::notice::Aucun test unitaire dans test/"
+            exit 0
+          fi
+
+          JAR="junit-platform-console-standalone-${JUNIT_VERSION}.jar"
+          curl -fsSL -o "$JAR" \
+            "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_VERSION}/${JAR}"
+
+          javac -d bin-test -cp "bin:$JAR" "${tests[@]}"
+          java -jar "$JAR" execute -cp bin:bin-test --scan-class-path --fail-if-no-tests=false
+
+  typst:
+    name: Typst (rapport)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v5
+        with:
+          typst-version: ${{ env.TYPST_VERSION }}
+
+      - name: Compile report
+        run: typst compile --root . remise/rapport.typ remise/rapport.pdf
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-pdf
+          path: remise/rapport.pdf
+          if-no-files-found: error

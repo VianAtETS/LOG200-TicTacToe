@@ -2,6 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Compiler (javac)",
+            "type": "shell",
+            "command": "javac -d bin src/*.java",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Delete old Git branches",
             "type": "shell",
             "linux": {
