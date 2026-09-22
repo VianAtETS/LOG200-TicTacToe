@@ -1,7 +1,5 @@
-
-enum Mark{
-        X,
-        O,
-        EMPTY
-    }
-
+enum Mark {
+    X,
+    O,
+    EMPTY
+}
