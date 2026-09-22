@@ -1,22 +1,24 @@
-// IMPORTANT: Il ne faut pas changer la signature des méthodes
-// de cette classe, ni le nom de la classe.
-// Vous pouvez par contre ajouter d'autres méthodes (ça devrait
-// être le cas)
+import java.util.Arrays;
+
 class Board {
     private Mark[][] board;
 
-    // Ne pas changer la signature de cette méthode
-    public Board() {}
+    public Board() {
+        board = new Mark[3][3];
+
+        for (Mark[] cell : board) {
+            Arrays.fill(cell, Mark.EMPTY);
+        }
+    }
 
     // Place la pièce 'mark' sur le plateau, à la
     // position spécifiée dans Move
-    //
-    // Ne pas changer la signature de cette méthode
     public void play(Move m, Mark mark) {}
 
     // retourne  100 pour une victoire
     //          -100 pour une défaite
     //           0   pour un match nul
-    // Ne pas changer la signature de cette méthode
-    public int evaluate(Mark mark) {}
+    public int evaluate(Mark mark) {
+        return 100;
+    }
 }
