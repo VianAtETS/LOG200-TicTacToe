@@ -5,6 +5,8 @@ class Move
     private int row;
     private int col;
 
+    // === Constructor ==
+
     public Move(){
         row = -1;
         col = -1;
@@ -14,6 +16,9 @@ class Move
         row = r;
         col = c;
     }
+
+
+    // === Getters & Setters ===
 
     public int getRow(){
         return row;
