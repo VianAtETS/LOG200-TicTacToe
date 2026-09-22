@@ -14,6 +14,7 @@ on:
 env:
   JUNIT_VERSION: 6.1.3
   TYPST_VERSION: 0.15.1
+  GJF_VERSION: 1.28.0
 
 jobs:
   java:
@@ -29,6 +30,21 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+
+      - name: Check formatting (google-java-format --aosp)
+        shell: bash
+        run: |
+          JAR="google-java-format-${GJF_VERSION}-all-deps.jar"
+          curl -fsSL -o "$JAR" \
+            "https://github.com/google/google-java-format/releases/download/v${GJF_VERSION}/${JAR}"
+          java \
+            --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \
+            --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED \
+            --add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \
+            --add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED \
+            --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
+            --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED \
+            -jar "$JAR" --aosp --dry-run --set-exit-if-changed $(find src test -name '*.java')
 
       - name: Compile sources
         run: javac -d bin src/*.java
