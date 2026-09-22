@@ -35,7 +35,8 @@ RUN mkdir -p /opt/junit \
         "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_VERSION}/junit-platform-console-standalone-${JUNIT_VERSION}.jar"
 
 # google-java-format (style AOSP) installé localement : l'extension VS Code l'utilise
-# directement au lieu de le télécharger elle-même
+# directement au lieu de le télécharger elle-même. Il appartient à vscode car
+# l'extension fait un chmod +x dessus au démarrage
 ARG GJF_VERSION=1.28.0
 RUN mkdir -p /opt/google-java-format \
     && curl -fsSL -o /opt/google-java-format/google-java-format.jar \
@@ -50,4 +51,5 @@ RUN mkdir -p /opt/google-java-format \
         '  --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED \' \
         '  -jar /opt/google-java-format/google-java-format.jar "$@"' \
         > /usr/local/bin/google-java-format \
-    && chmod 0755 /usr/local/bin/google-java-format
+    && chmod 0755 /usr/local/bin/google-java-format \
+    && chown -R vscode:vscode /opt/google-java-format /usr/local/bin/google-java-format
