@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 class Board {
@@ -34,5 +35,25 @@ class Board {
             return (board[1][1] == mark) ? 100 : -100;
 
         return 0;
+    }
+
+    public boolean isFinal() {
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) if (board[i][j] == Mark.EMPTY) return false;
+
+        return true;
+    }
+
+    public void undo(Move m) {
+        board[m.getRow()][m.getCol()] = Mark.EMPTY;
+    }
+
+    public ArrayList<Move> getAvailableMoves() {
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for (int r = 0; r < 3; r++)
+            for (int c = 0; c < 3; c++) if (board[r][c] == Mark.EMPTY) moves.add(new Move(r, c));
+
+        return moves;
     }
 }

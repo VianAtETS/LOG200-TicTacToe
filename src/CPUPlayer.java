@@ -10,30 +10,72 @@ class CPUPlayer {
     // Normalement, la variable devrait être incrémentée
     // au début de votre MinMax ou Alpha Beta.
     private int numExploredNodes;
+    private Mark max;
+    private Mark min;
 
     // Le constructeur reçoit en paramètre le
     // joueur MAX (X ou O)
-    public CPUPlayer(Mark cpu) {}
+    public CPUPlayer(Mark cpu) {
+        this.max = cpu;
+        this.min = (cpu == Mark.X) ? Mark.O : Mark.X;
+    }
 
-    // Ne pas changer cette méthode
     public int getNumOfExploredNodes() {
-        return numExploredNodes;
+        return this.numExploredNodes;
     }
 
     // Retourne la liste des coups possibles.  Cette liste contient
     // plusieurs coups possibles si et seuleument si plusieurs coups
     // ont le même score.
     public ArrayList<Move> getNextMoveMinMax(Board board) {
-        numExploredNodes = 0;
+        this.numExploredNodes = 0;
+        ArrayList<Move> bestMoves = new ArrayList<>();
+        int bestScore = Integer.MIN_VALUE;
 
-        return new ArrayList<>();
+        for (Move m : board.getAvailableMoves()) {
+            board.play(m, this.max);
+            int score = minimax(board, this.min);
+            board.undo(m);
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMoves.clear();
+                bestMoves.add(m);
+            } else if (score == bestScore) {
+                bestMoves.add(m);
+            }
+        }
+        return bestMoves;
+    }
+
+    private int minimax(Board board, Mark currentPlayer) {
+        numExploredNodes++;
+
+        if (board.isFinal()) return board.evaluate(this.max);
+
+        boolean isMax = (currentPlayer == this.max);
+        int best = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        Mark next = isMax ? this.min : this.max;
+
+        for (Move m : board.getAvailableMoves()) {
+            board.play(m, currentPlayer);
+            int score = minimax(board, next);
+            board.undo(m);
+
+            best = isMax ? Math.max(best, score) : Math.min(best, score);
+        }
+        return best;
     }
 
     // Retourne la liste des coups possibles.  Cette liste contient
     // plusieurs coups possibles si et seuleument si plusieurs coups
     // ont le même score.
     public ArrayList<Move> getNextMoveAB(Board board) {
-        numExploredNodes = 0;
+        this.numExploredNodes = 0;
         return new ArrayList<>();
+    }
+
+    private int alphaBeta(Board board, Mark currentPlayer, int alpha, int beta) {
+        return minimax(board, (currentPlayer == Mark.X) ? Mark.O : Mark.X);
     }
 }
