@@ -21,6 +21,18 @@ class Board {
     //          -100 pour une défaite
     //           0   pour un match nul
     public int evaluate(Mark mark) {
-        return 100;
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0] == board[i][1] && board[i][0] == board[i][2])
+                return (board[i][0] == mark) ? 100 : -100;
+        }
+        for (int i = 0; i < 3; i++) {
+            if (board[0][i] == board[1][i] && board[0][i] == board[2][i])
+                return (board[0][i] == mark) ? 100 : -100;
+        }
+        if ((board[0][0] == board[1][1] && board[0][0] == board[2][2])
+                || (board[0][2] == board[1][1] && board[0][2] == board[2][0]))
+            return (board[1][1] == mark) ? 100 : -100;
+
+        return 0;
     }
 }
