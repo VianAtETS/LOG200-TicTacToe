@@ -12,6 +12,12 @@
             "problemMatcher": []
         },
         {
+            "label": "Formater (google-java-format)",
+            "type": "shell",
+            "command": "google-java-format --aosp --replace $(find src test -name '*.java')",
+            "problemMatcher": []
+        },
+        {
             "label": "Delete old Git branches",
             "type": "shell",
             "linux": {

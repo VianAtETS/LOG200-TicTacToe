@@ -18,6 +18,9 @@
             ],
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",
+                "github.copilot.enable": { "*": false },
+                "github.copilot.nextEditSuggestions.enabled": false,
+                "editor.inlineSuggest.enabled": false,
                 "java.project.sourcePaths": ["src", "test"],
                 "java.project.referencedLibraries": ["/opt/junit/*.jar"],
                 "java.project.outputPath": "bin",
@@ -27,6 +30,7 @@
                     "editor.defaultFormatter": "josevseb.google-java-format-for-vs-code"
                 },
                 "java.format.settings.google.extra": "--aosp",
+                "java.format.settings.google.executable": "/usr/local/bin/google-java-format",
                 "tinymist.exportPdf": "onSave",
                 "tinymist.rootPath": "${workspaceFolder}",
                 "tinymist.formatterMode": "typstyle",
@@ -37,5 +41,6 @@
         }
     },
     "postCreateCommand": "java -version && javac -version && typst --version",
+    "postAttachCommand": "bash .devcontainer/install-extensions.sh",
     "remoteUser": "vscode"
 }

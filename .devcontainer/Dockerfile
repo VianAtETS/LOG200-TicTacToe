@@ -33,3 +33,21 @@ ARG JUNIT_VERSION=6.1.3
 RUN mkdir -p /opt/junit \
     && curl -fsSL -o "/opt/junit/junit-platform-console-standalone-${JUNIT_VERSION}.jar" \
         "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_VERSION}/junit-platform-console-standalone-${JUNIT_VERSION}.jar"
+
+# google-java-format (style AOSP) installé localement : l'extension VS Code l'utilise
+# directement au lieu de le télécharger elle-même
+ARG GJF_VERSION=1.28.0
+RUN mkdir -p /opt/google-java-format \
+    && curl -fsSL -o /opt/google-java-format/google-java-format.jar \
+        "https://github.com/google/google-java-format/releases/download/v${GJF_VERSION}/google-java-format-${GJF_VERSION}-all-deps.jar" \
+    && printf '%s\n' '#!/bin/sh' \
+        'exec java \' \
+        '  --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \' \
+        '  --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED \' \
+        '  --add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \' \
+        '  --add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED \' \
+        '  --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \' \
+        '  --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED \' \
+        '  -jar /opt/google-java-format/google-java-format.jar "$@"' \
+        > /usr/local/bin/google-java-format \
+    && chmod 0755 /usr/local/bin/google-java-format
