@@ -1,5 +1,5 @@
 
-
+// Classe qui contient les informations relatives au mouvement, autrement dit, la position à laquelle une pièce est jouée.
 class Move
 {
     private int row;

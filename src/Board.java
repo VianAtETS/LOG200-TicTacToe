@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+// Classe qui contient les informations du plateau.
 // IMPORTANT: Il ne faut pas changer la signature des méthodes
 // de cette classe, ni le nom de la classe.
 // Vous pouvez par contre ajouter d'autres méthodes (ça devrait 
@@ -28,6 +29,6 @@ class Board
     //           0   pour un match nul
     // Ne pas changer la signature de cette méthode
     public int evaluate(Mark mark){
-
+        return 0;
     }
 }

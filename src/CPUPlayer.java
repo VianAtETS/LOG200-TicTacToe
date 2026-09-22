@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+// Classe qui contient les méthodes qui implémentent l’agent intelligent.
 // IMPORTANT: Il ne faut pas changer la signature des méthodes
 // de cette classe, ni le nom de la classe.
 // Vous pouvez par contre ajouter d'autres méthodes (ça devrait 
@@ -31,6 +32,8 @@ class CPUPlayer
     {
         numExploredNodes = 0;
 
+        return new ArrayList<Move>();
+
     }
 
     // Retourne la liste des coups possibles.  Cette liste contient
@@ -39,6 +42,7 @@ class CPUPlayer
     public ArrayList<Move> getNextMoveAB(Board board){
         numExploredNodes = 0;
 
+        return new ArrayList<Move>();
     }
 
 }
