@@ -12,11 +12,12 @@ class CPUPlayer
     // Normalement, la variable devrait être incrémentée
     // au début de votre MinMax ou Alpha Beta.
     private int numExploredNodes;
-
+    private Mark cpu;
     // Le constructeur reçoit en paramètre le
     // joueur MAX (X ou O)
     public CPUPlayer(Mark cpu){
-
+        this.numExploredNodes=0;
+        this.cpu=cpu;
     }
 
     // Ne pas changer cette méthode
@@ -28,8 +29,10 @@ class CPUPlayer
     // plusieurs coups possibles si et seuleument si plusieurs coups
     // ont le même score.
     public ArrayList<Move> getNextMoveMinMax(Board board)
-    {
-        numExploredNodes = 0;
+    {   
+        numExploredNodes++;
+        ArrayList<Move> nextMoveMM = new ArrayList<>();
+        return nextMoveMM;
 
     }
 
@@ -37,7 +40,9 @@ class CPUPlayer
     // plusieurs coups possibles si et seuleument si plusieurs coups
     // ont le même score.
     public ArrayList<Move> getNextMoveAB(Board board){
-        numExploredNodes = 0;
+        numExploredNodes++;
+        ArrayList<Move> nextMoveAB = new ArrayList<>();
+        return nextMoveAB;
 
     }
 
